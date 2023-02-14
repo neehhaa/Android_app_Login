@@ -1,23 +1,22 @@
 package com.example.loginpage;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 
 public class SignUp extends AppCompatActivity {
 
     EditText first_name, last_name, email_signup, mobile_number, password, confirm_password;
     Button btn_signup;
+    ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +32,11 @@ public class SignUp extends AppCompatActivity {
         btn_signup = findViewById(R.id.btn_signup);
 
         btn_signup.setOnClickListener(v -> {
-            checkDataEntered();
             closeKeyboard();
-            Intent i =new Intent(SignUp.this,Login.class);
-            startActivity(i);
+            if (checkDataEntered()) {
+                Intent i = new Intent(SignUp.this, HomePage.class);
+                startActivity(i);
+            }
         });
 
 
@@ -59,42 +59,42 @@ public class SignUp extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(),0);
         }
     }
-
-    boolean isEmail(EditText text){
-        CharSequence email_signup = text.getText().toString();
-        return (!TextUtils.isEmpty(email_signup) && Patterns.EMAIL_ADDRESS.matcher(email_signup).matches());
-    }
-
-    boolean isEmpty(EditText text){
-        CharSequence str = text.getText().toString();
-        return TextUtils.isEmpty(str);
-    }
-    void checkDataEntered() {
-        if (isEmpty(first_name)) {
+    public boolean checkDataEntered() {
+        if (ValidationUtils.isEmpty(first_name)) {
             first_name.setError("First Name Required!!");
+            return false;
         }
-        if (isEmpty(last_name)) {
+        if (ValidationUtils.isEmpty(last_name)) {
             last_name.setError("Last Name Required!!");
+            return false;
         }
-        if (!isEmail(email_signup)) {
+        if (!ValidationUtils.isEmail(email_signup)) {
             email_signup.setError(("Enter valid email!!"));
+            return false;
         }
-        if (isEmpty(mobile_number)) {
+        if (ValidationUtils.isEmpty(mobile_number)) {
             mobile_number.setError("Mobile Number Required!!");
+            return false;
         }
-        if (!mobile_number.getText().toString().matches("\\d{10}$"))
+        if (!mobile_number.getText().toString().matches("\\d{10}$")){
             mobile_number.setError("Enter 10 digits");
-
-        if (password.length() == 0) {
-            password.setError("Password cannot be empty");
+            return false;
         }
 
-        if (confirm_password.length() == 0) {
+        if (ValidationUtils.isEmpty(password)) {
+            password.setError("Password cannot be empty");
+            return false;
+        }
+
+        if (ValidationUtils.isEmpty(confirm_password)) {
             confirm_password.setError("Confirm password is empty");
+            return false;
         }
         if (!password.getText().toString().matches(confirm_password.getText().toString())) {
             confirm_password.setError("Password doesn't match");
+            return false;
         }
+        return true;
     }
     public void hideKeyboard(View view){
         InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
