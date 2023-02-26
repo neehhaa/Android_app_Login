@@ -1,4 +1,4 @@
-package com.example.loginpage;
+package com.example.loginpage.Activities;
 
 import android.app.Activity;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.example.loginpage;
+package com.example.loginpage.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.loginpage.R;
 
 public class ForgotPassword extends AppCompatActivity {
 
@@ -51,9 +53,6 @@ public class ForgotPassword extends AppCompatActivity {
         }
         return true;
     }
-
-
-
     public void hideKeyboard(View view){
         InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(),0);

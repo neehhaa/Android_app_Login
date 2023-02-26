@@ -1,7 +1,9 @@
-package com.example.loginpage;
+package com.example.loginpage.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.loginpage.R;
 
 public class HomePage extends AppCompatActivity {
 
